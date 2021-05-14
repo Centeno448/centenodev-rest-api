@@ -14,13 +14,15 @@ services:
       - 6379:6379
   centenodev.db:
     container_name: centenodev.db
-    image: postgres:13
+    build:
+      context: .
+      dockerfile: CentenoDev.DB/Dockerfile
     volumes:
       - "centenodev-data:/var/lib/postgresql/data"
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=example
+      - POSTGRES_PASSWORD=83f091a12468
   centenodev.adminer:
     container_name: centenodev.adminer
     image: adminer
