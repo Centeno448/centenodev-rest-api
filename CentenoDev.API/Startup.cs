@@ -47,7 +47,7 @@ namespace CentenoDev.API
                 .AddXmlDataContractSerializerFormatters();
 
             services.AddDbContext<CentenoDevDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("CentenoDevConnection")));
+                options.UseNpgsql(Configuration.GetConnectionString("CentenoDevConnection")));
 
             services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
             services.AddTransient<IProjectService, ProjectService>();
