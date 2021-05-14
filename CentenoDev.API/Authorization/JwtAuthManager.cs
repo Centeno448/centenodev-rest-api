@@ -1,4 +1,5 @@
 ﻿using CentenoDev.API.Configuration;
+using CentenoDev.API.Models.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -49,7 +50,7 @@ namespace CentenoDev.API.Authorization
                 AbsoluteExpiration = refreshToken.ExpireAt
             };
 
-            _cache.Set(username, Encoding.ASCII.GetBytes(serializedRefreshToken), options);
+            _cache.Set($"tokens_{username}", Encoding.ASCII.GetBytes(serializedRefreshToken), options);
 
             return new JwtAuthResult
             {
@@ -60,17 +61,17 @@ namespace CentenoDev.API.Authorization
 
         public void DeleteCachedRefreshToken(string username)
         {
-            _cache.Remove(username);
+            _cache.Remove($"tokens_{username}");
         }
 
         public bool IsRefreshTokenValid(string username, string refreshToken, string accessToken)
         {
-            var bytes = _cache.Get(username);
+            var bytes = _cache.Get($"tokens_{username}");
             var cachedRefreshToken = Encoding.ASCII.GetString(bytes);
             var cachedToken = JsonConvert.DeserializeObject<RefreshToken>(cachedRefreshToken);
 
             bool tokenExistsInCache = cachedToken.TokenString == refreshToken;
-            bool tokenIsNotExpired = cachedToken.ExpireAt <= DateTime.Now;
+            bool tokenIsNotExpired = cachedToken.ExpireAt >= DateTime.Now;
             bool tokenIsValidForAccessToken = cachedToken.AccessToken == accessToken;
 
             return  tokenExistsInCache && tokenIsNotExpired && tokenIsValidForAccessToken;

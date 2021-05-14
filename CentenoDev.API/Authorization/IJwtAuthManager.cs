@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CentenoDev.API.Models.Authorization;
+using System;
 using System.Security.Claims;
 
 namespace CentenoDev.API.Authorization
@@ -9,6 +10,6 @@ namespace CentenoDev.API.Authorization
 
         void DeleteCachedRefreshToken(string username);
 
-        bool IsRefreshTokenValid(string username, string refreshToken, string accessToken)
+        bool IsRefreshTokenValid(string username, string refreshToken, string accessToken);
     }
 }
