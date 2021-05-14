@@ -1,28 +1,26 @@
 ﻿using CentenoDev.API.Configuration;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CentenoDev.API.Authorization
 {
     public class JwtAuthManager : IJwtAuthManager
     {
-        // TODO: Store refresh tokens in DB of cache
         private readonly JwtConfig _jwtTokenConfig;
         private readonly byte[] _secret;
+        private readonly IDistributedCache _cache;
 
-        public JwtAuthManager(JwtConfig jwtTokenConfig)
+        public JwtAuthManager(JwtConfig jwtTokenConfig, IDistributedCache cache)
         {
             _jwtTokenConfig = jwtTokenConfig;
             _secret = Encoding.ASCII.GetBytes(jwtTokenConfig.Secret);
+            _cache = cache;
         }
 
         public JwtAuthResult GenerateTokens(string username, Claim[] claims, DateTime now)
@@ -38,18 +36,44 @@ namespace CentenoDev.API.Authorization
 
             var refreshToken = new RefreshToken
             {
+                AccessToken = accessToken,
                 UserName = username,
                 TokenString = GenerateRefreshTokenString(),
                 ExpireAt = now.AddMinutes(_jwtTokenConfig.RefreshTokenExpiration)
             };
 
-            // _usersRefreshTokens.AddOrUpdate(refreshToken.TokenString, refreshToken, (s, t) => refreshToken); Save to DB
+            var serializedRefreshToken = JsonConvert.SerializeObject(refreshToken);
+            
+            DistributedCacheEntryOptions options = new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpiration = refreshToken.ExpireAt
+            };
+
+            _cache.Set(username, Encoding.ASCII.GetBytes(serializedRefreshToken), options);
 
             return new JwtAuthResult
             {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken
             };
+        }
+
+        public void DeleteCachedRefreshToken(string username)
+        {
+            _cache.Remove(username);
+        }
+
+        public bool IsRefreshTokenValid(string username, string refreshToken, string accessToken)
+        {
+            var bytes = _cache.Get(username);
+            var cachedRefreshToken = Encoding.ASCII.GetString(bytes);
+            var cachedToken = JsonConvert.DeserializeObject<RefreshToken>(cachedRefreshToken);
+
+            bool tokenExistsInCache = cachedToken.TokenString == refreshToken;
+            bool tokenIsNotExpired = cachedToken.ExpireAt <= DateTime.Now;
+            bool tokenIsValidForAccessToken = cachedToken.AccessToken == accessToken;
+
+            return  tokenExistsInCache && tokenIsNotExpired && tokenIsValidForAccessToken;
         }
 
         private static string GenerateRefreshTokenString()

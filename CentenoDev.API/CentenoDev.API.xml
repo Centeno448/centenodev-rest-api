@@ -13,7 +13,7 @@
         </member>
         <member name="M:CentenoDev.API.Controllers.ProjectsController.GetProjects">
             <summary>
-            Gets all the projects
+            Get all the projects
             </summary>
             <returns></returns>
         </member>

@@ -40,6 +40,7 @@ namespace CentenoDev.API
             {
                 setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
                 setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized));
                 setupAction.Filters.Add(new ProducesAttribute("Application/json", "Application/xml"));
             })
                 .AddNewtonsoftJson()
@@ -51,6 +52,15 @@ namespace CentenoDev.API
             services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<IAccountService, AccountService>();
+
+            var endpoint = Configuration.GetValue(typeof(string), "RedisConfig").ToString();
+
+            services.AddStackExchangeRedisCache(setupAction =>
+            {
+                setupAction.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions();
+
+                setupAction.ConfigurationOptions.EndPoints.Add(endpoint);
+            });
 
             var jwtTokenConfig = Configuration.GetSection("JwtTokenConfig").Get<JwtConfig>();
             services.AddSingleton(jwtTokenConfig);

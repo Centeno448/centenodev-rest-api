@@ -3,14 +3,17 @@ using CentenoDev.API.Authorization;
 using CentenoDev.API.Entities;
 using CentenoDev.API.Models.Account;
 using CentenoDev.API.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CentenoDev.API.Controllers
@@ -19,17 +22,20 @@ namespace CentenoDev.API.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
         private readonly IJwtAuthManager _jwtAuthManager;
+        private readonly IDistributedCache _cache;
 
-        public AccountController(IMapper mapper, IAccountService accountService, ILogger<AccountController> logger, IJwtAuthManager jwtAuthManager)
+        public AccountController(IMapper mapper, 
+            IAccountService accountService, 
+            IJwtAuthManager jwtAuthManager,
+            IDistributedCache distributedCache)
         {
-            _logger = logger;
             _accountService = accountService;
             _mapper = mapper;
             _jwtAuthManager = jwtAuthManager;
+            _cache = distributedCache;
         }
 
         /// <summary>
@@ -73,6 +79,53 @@ namespace CentenoDev.API.Controllers
             };
 
             return Ok(result);
+        }
+
+
+        [Authorize]
+        [HttpPost("logout")]
+        [Consumes("application/json")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public  ActionResult Logout()
+        {
+            var username = User.Identity.Name;
+
+            _jwtAuthManager.DeleteCachedRefreshToken(username);
+
+            return Ok();
+        }
+
+
+        [Authorize]
+        [HttpPost("refresh-token")]
+        [Consumes("application/json")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var username = User.Identity.Name;
+
+            if (string.IsNullOrWhiteSpace(request.RefreshToken))
+            {
+                return Unauthorized();
+            }
+
+            var accessToken = await HttpContext.GetTokenAsync("Bearer", "access_token");
+            bool isValid = _jwtAuthManager.IsRefreshTokenValid(username, request.RefreshToken, accessToken);
+
+            if (!isValid)
+            {
+                return Unauthorized("Refresh token is not valid.");
+            }
+
+            var jwtResult = _jwtAuthManager.GenerateTokens(username, User.Claims.ToArray(), DateTime.Now);
+            
+            return Ok(new LoginResult
+            {
+                Username = username,
+                Role = User.FindFirst(ClaimTypes.Role)?.Value ?? string.Empty,
+                AccessToken = jwtResult.AccessToken,
+                RefreshToken = jwtResult.RefreshToken.TokenString
+            });
         }
     }
 }
