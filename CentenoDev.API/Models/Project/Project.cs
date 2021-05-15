@@ -12,5 +12,11 @@ namespace CentenoDev.API.Models.Project
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public string GitRepo { get; set; }
+
+        public string ProdLink { get; set; }
+
+        public bool IsPersonal { get; set; }
     }
 }

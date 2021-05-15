@@ -2,6 +2,7 @@ using CentenoDev.API.Authorization;
 using CentenoDev.API.Configuration;
 using CentenoDev.API.Data;
 using CentenoDev.API.Services;
+using CentenoDev.API.Services.Lesson;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +53,7 @@ namespace CentenoDev.API
             services.AddSingleton<IJwtAuthManager, JwtAuthManager>();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<ILessonService, LessonService>();
 
             var endpoint = Configuration.GetValue(typeof(string), "RedisConfig").ToString();
 

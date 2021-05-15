@@ -10,28 +10,28 @@ namespace CentenoDev.API.Services
 {
     public class AccountService : IAccountService
     {
-        private CentenoDevDBContext _context;
+        private CentenoDevDBContext _db;
 
         public AccountService(CentenoDevDBContext context)
         {
-            _context = context;
+            _db = context;
         }
 
         public async Task<AccountEntity> LoginUser(AccountEntity account)
         {
-            return await _context.Account.Where(a => a.Username == account.Username && a.Password == account.Password).FirstOrDefaultAsync();
+            return await _db.Account.Where(a => a.Username == account.Username && a.Password == account.Password).FirstOrDefaultAsync();
         }
 
         public async void CreateUser(AccountEntity account)
         {
-            account.AccountGuid = Guid.NewGuid();
+            account.Guid = Guid.NewGuid();
 
-            await _context.Account.AddAsync(account);
+            await _db.Account.AddAsync(account);
         }
 
         public async Task<bool> SaveChangesAsync()
         {
-            return (await _context.SaveChangesAsync() > 0);
+            return (await _db.SaveChangesAsync() > 0);
         }
     }
 }

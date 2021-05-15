@@ -13,7 +13,16 @@ namespace CentenoDev.API.Models.Project
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(500)]
+        [MaxLength(250)]
         public string Description { get; set; }
+
+        [MaxLength(500)]
+        public string GitRepo { get; set; }
+
+        [MaxLength(500)]
+        public string ProdLink { get; set; }
+
+        [Required]
+        public bool IsPersonal { get; set; }
     }
 }

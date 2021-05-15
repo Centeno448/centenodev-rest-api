@@ -10,46 +10,46 @@ namespace CentenoDev.API.Services
 {
     public class ProjectService : IProjectService, IDisposable
     {
-        private CentenoDevDBContext _context;
+        private CentenoDevDBContext _db;
 
         public ProjectService(CentenoDevDBContext context)
         {
-            _context = context;
+            _db = context;
         }
 
 
         public async Task<IEnumerable<ProjectEntity>> GetProjects()
         {
-            return await _context.Project.ToListAsync();
+            return await _db.Project.ToListAsync();
         }
 
         public async Task<ProjectEntity> GetProjectByGuid(Guid guid)
         {
-            return await _context.Project.Where(p => p.Guid == guid).FirstOrDefaultAsync();
+            return await _db.Project.FindAsync(guid);
         }
 
         public async void AddProject(ProjectEntity project)
         {
             project.Guid = Guid.NewGuid();
 
-            await _context.Project.AddAsync(project);
+            await _db.Project.AddAsync(project);
         }
 
-        public void DeleteProject(Guid guid)
+        public async void DeleteProject(Guid guid)
         {
-            var project = _context.Project.Where(p => p.Guid == guid).FirstOrDefault();
+            var project = await _db.Project.FindAsync(guid);
 
-            _context.Project.Remove(project);
+            _db.Project.Remove(project);
         }
 
         public async Task<bool> SaveChangesAsync()
         {
-            return (await _context.SaveChangesAsync() > 0);
+            return (await _db.SaveChangesAsync() > 0);
         }
 
         public async Task<bool> ProjectExists(Guid guid)
         {
-            return await _context.Project.AnyAsync(p => p.Guid == guid);
+            return await _db.Project.FindAsync(guid) != null;
         }
 
         public void Dispose()
@@ -62,10 +62,10 @@ namespace CentenoDev.API.Services
         {
             if (disposing)
             {
-                if (_context != null)
+                if (_db != null)
                 {
-                    _context.Dispose();
-                    _context = null;
+                    _db.Dispose();
+                    _db = null;
                 }
             }
         }
