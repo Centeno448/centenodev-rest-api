@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 namespace CentenoDev.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("projects")]
     [Authorize(Roles = "admin")]
     public class ProjectsController : ControllerBase
     {
@@ -85,7 +85,7 @@ namespace CentenoDev.API.Controllers
         {
             var entity = _mapper.Map<ProjectEntity>(projectForCreation);
 
-            _projectService.AddProject(entity);
+            await _projectService.AddProject(entity);
 
             await _projectService.SaveChangesAsync();
 
@@ -107,7 +107,7 @@ namespace CentenoDev.API.Controllers
             if (!await _projectService.ProjectExists(guid))
                 return NotFound();
 
-            _projectService.DeleteProject(guid);
+            await _projectService.DeleteProject(guid);
 
             await _projectService.SaveChangesAsync();
 

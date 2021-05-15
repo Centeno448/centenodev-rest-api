@@ -22,7 +22,7 @@ namespace CentenoDev.API.Services
             return await _db.Account.Where(a => a.Username == account.Username && a.Password == account.Password).FirstOrDefaultAsync();
         }
 
-        public async void CreateUser(AccountEntity account)
+        public async Task CreateUser(AccountEntity account)
         {
             account.Guid = Guid.NewGuid();
 

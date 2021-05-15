@@ -27,14 +27,14 @@ namespace CentenoDev.API.Services.Lesson
             return await _db.Lesson.Where(l => l.Guid == lessonGuid && l.ProjectGuid == projectGuid).FirstOrDefaultAsync();
         }
 
-        public async void AddLesson(LessonEntity lesson)
+        public async Task AddLesson(LessonEntity lesson)
         {
             lesson.Guid = Guid.NewGuid();
 
             await _db.Lesson.AddAsync(lesson);
         }
 
-        public async void DeleteLesson(Guid projectGuid, Guid lessonGuid)
+        public async Task DeleteLesson(Guid projectGuid, Guid lessonGuid)
         {
             var lesson = await GetLessonByGuid(projectGuid, lessonGuid);
 

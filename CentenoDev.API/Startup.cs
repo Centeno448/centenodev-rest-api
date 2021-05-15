@@ -43,6 +43,7 @@ namespace CentenoDev.API
                 setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
                 setupAction.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized));
                 setupAction.Filters.Add(new ProducesAttribute("Application/json", "Application/xml"));
+                setupAction.Filters.Add(new ConsumesAttribute("Application/json"));
             })
                 .AddNewtonsoftJson()
                 .AddXmlDataContractSerializerFormatters();

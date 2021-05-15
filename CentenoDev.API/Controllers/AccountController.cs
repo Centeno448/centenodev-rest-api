@@ -19,23 +19,20 @@ using System.Threading.Tasks;
 namespace CentenoDev.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("account")]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
         private readonly IJwtAuthManager _jwtAuthManager;
-        private readonly IDistributedCache _cache;
 
         public AccountController(IMapper mapper, 
             IAccountService accountService, 
-            IJwtAuthManager jwtAuthManager,
-            IDistributedCache distributedCache)
+            IJwtAuthManager jwtAuthManager)
         {
             _accountService = accountService;
             _mapper = mapper;
             _jwtAuthManager = jwtAuthManager;
-            _cache = distributedCache;
         }
 
         /// <summary>
@@ -45,7 +42,6 @@ namespace CentenoDev.API.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("login")]
-        [Consumes("application/json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<LoginResult>> Login([FromBody] Account account)
@@ -84,7 +80,6 @@ namespace CentenoDev.API.Controllers
 
         [Authorize]
         [HttpPost("logout")]
-        [Consumes("application/json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public  ActionResult Logout()
         {
@@ -98,7 +93,6 @@ namespace CentenoDev.API.Controllers
 
         [Authorize]
         [HttpPost("refresh-token")]
-        [Consumes("application/json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {

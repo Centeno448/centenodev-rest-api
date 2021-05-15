@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CentenoDev.API.Services
 {
-    public class ProjectService : IProjectService, IDisposable
+    public class ProjectService : IProjectService
     {
         private CentenoDevDBContext _db;
 
@@ -28,14 +28,14 @@ namespace CentenoDev.API.Services
             return await _db.Project.FindAsync(guid);
         }
 
-        public async void AddProject(ProjectEntity project)
+        public async Task AddProject(ProjectEntity project)
         {
             project.Guid = Guid.NewGuid();
 
             await _db.Project.AddAsync(project);
         }
 
-        public async void DeleteProject(Guid guid)
+        public async Task DeleteProject(Guid guid)
         {
             var project = await _db.Project.FindAsync(guid);
 
@@ -52,22 +52,6 @@ namespace CentenoDev.API.Services
             return await _db.Project.FindAsync(guid) != null;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_db != null)
-                {
-                    _db.Dispose();
-                    _db = null;
-                }
-            }
-        }
     }
 }

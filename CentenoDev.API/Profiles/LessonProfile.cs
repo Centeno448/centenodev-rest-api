@@ -13,6 +13,7 @@ namespace CentenoDev.API.Profiles
         public LessonProfile()
         {
             CreateMap<LessonEntity, Lesson>();
+            CreateMap<LessonForCreation, LessonEntity>();
         }
     }
 }

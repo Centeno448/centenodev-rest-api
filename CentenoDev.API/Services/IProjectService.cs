@@ -7,9 +7,8 @@ namespace CentenoDev.API.Services
 {
     public interface IProjectService
     {
-        void AddProject(ProjectEntity project);
-        void DeleteProject(Guid guid);
-        void Dispose();
+        Task AddProject(ProjectEntity project);
+        Task DeleteProject(Guid guid);
         Task<ProjectEntity> GetProjectByGuid(Guid guid);
         Task<IEnumerable<ProjectEntity>> GetProjects();
         Task<bool> ProjectExists(Guid guid);

@@ -7,7 +7,7 @@ namespace CentenoDev.API.Services
     {
         Task<AccountEntity> LoginUser(AccountEntity account);
 
-        void CreateUser(AccountEntity account);
+        Task CreateUser(AccountEntity account);
 
         Task<bool> SaveChangesAsync();
     }
