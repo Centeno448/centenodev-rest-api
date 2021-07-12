@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CentenoDev.API.Services
+namespace CentenoDev.API.Services.Project
 {
     public interface IProjectService
     {

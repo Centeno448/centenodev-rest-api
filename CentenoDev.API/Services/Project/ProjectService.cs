@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CentenoDev.API.Services
+namespace CentenoDev.API.Services.Project
 {
     public class ProjectService : IProjectService
     {

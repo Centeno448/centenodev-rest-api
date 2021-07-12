@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
-using CentenoDev.API.Entities;
 using CentenoDev.API.Models.Lesson;
-using CentenoDev.API.Services;
 using CentenoDev.API.Services.Lesson;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using CentenoDev.API.Services.Project;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -16,7 +12,6 @@ namespace CentenoDev.API.Controllers
 {
     [ApiController]
     [Route("projects/{projectGuid}/lessons")]
-    [Authorize]
     public class LessonsController : ControllerBase
     {
         private readonly ILessonService _lessonService;
@@ -32,8 +27,11 @@ namespace CentenoDev.API.Controllers
             _projectService = projectService;
         }
 
-
-        [AllowAnonymous]
+        /// <summary>
+        /// Get all lessons from a project
+        /// </summary>
+        /// <param name="projectGuid"></param>
+        /// <returns></returns>
         [HttpGet]
         [Consumes("application/json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -51,7 +49,12 @@ namespace CentenoDev.API.Controllers
         }
 
 
-        [AllowAnonymous]
+        /// <summary>
+        /// Get a lesson from a project
+        /// </summary>
+        /// <param name="projectGuid"></param>
+        /// <param name="lessonGuid"></param>
+        /// <returns></returns>
         [HttpGet("{lessonGuid}", Name = "GetLesson")]
         [Consumes("application/json")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
@@ -71,45 +74,5 @@ namespace CentenoDev.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        [Consumes("application/json")]
-        [ProducesResponseType((int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
-        public async Task<ActionResult<Lesson>> AddLesson([FromRoute] Guid projectGuid, [FromBody] LessonForCreation newLesson)
-        {
-            if (!await _projectService.ProjectExists(projectGuid))
-                return NotFound();
-            
-            var newLessonEntity = _mapper.Map<LessonEntity>(newLesson);
-
-            await _lessonService.AddLesson(newLessonEntity);
-
-            await _lessonService.SaveChangesAsync();
-
-            var createdLesson = _mapper.Map<Lesson>(newLessonEntity);
-
-            return CreatedAtRoute("GetLesson", new { projectGuid, lessonGuid = createdLesson.Guid }, createdLesson);
-        }
-
-
-        [HttpDelete("{lessonGuid}")]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteLesson([FromRoute] Guid projectGuid, [FromRoute] Guid lessonGuid)
-        {
-            if (!await _projectService.ProjectExists(projectGuid))
-                return NotFound();
-
-            if (!await _lessonService.LessonExists(projectGuid, lessonGuid))
-                return NotFound();
-
-            await _lessonService.DeleteLesson(projectGuid, lessonGuid);
-
-            await _lessonService.SaveChangesAsync();
-
-            return NoContent();
-        }
     }
 }

@@ -1,17 +1,14 @@
-version: '3.4'
+version: '3.8'
 
 services:
+
   centenodev.api:
     container_name: centenodev.api
     image: ${DOCKER_REGISTRY-}centenodevapi
     build:
       context: .
       dockerfile: CentenoDev.API/Dockerfile
-  centenodev.redis:
-    container_name: centenodev.redis
-    image: redis:6.2-alpine
-    ports:
-      - 6379:6379
+
   centenodev.db:
     container_name: centenodev.db
     build:
@@ -23,12 +20,12 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=83f091a12468
+
   centenodev.adminer:
     container_name: centenodev.adminer
     image: adminer
-    restart: always
     ports:
-      - 8080:8080
+    - 8080:8080 
 
 volumes:
   centenodev-data:
