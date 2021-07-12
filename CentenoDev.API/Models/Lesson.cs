@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CentenoDev.API.Models.Lesson
+namespace CentenoDev.API.Models
 {
     public class Lesson
     {

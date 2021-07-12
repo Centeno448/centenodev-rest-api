@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CentenoDev.API.Models.Lesson;
+using CentenoDev.API.Models;
 using CentenoDev.API.Services.Lesson;
 using CentenoDev.API.Services.Project;
 using Microsoft.AspNetCore.Mvc;

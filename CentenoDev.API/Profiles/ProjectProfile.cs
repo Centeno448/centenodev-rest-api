@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CentenoDev.API;
 using CentenoDev.API.Entities;
-using CentenoDev.API.Models.Project;
+using CentenoDev.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +14,6 @@ namespace CentenoDev.API.Profiles
         public ProjectProfile()
         {
             CreateMap<ProjectEntity, Project>();
-
-            CreateMap<ProjectForCreation, ProjectEntity>();
-
-            CreateMap<ProjectForUpdate, ProjectEntity>();
-
-            CreateMap<ProjectEntity, ProjectForUpdate>();
         }
     }
 }

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CentenoDev.API.Profiles
 {
-    public class LessonProfile : Profile
+    public class AttachmentProfile : Profile
     {
-        public LessonProfile()
+        public AttachmentProfile()
         {
-            CreateMap<LessonEntity, Lesson>();
+            CreateMap<AttachmentEntity, Attachment>();
         }
     }
 }

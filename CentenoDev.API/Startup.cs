@@ -1,4 +1,5 @@
 using CentenoDev.API.Data;
+using CentenoDev.API.Services.Attachment;
 using CentenoDev.API.Services.Lesson;
 using CentenoDev.API.Services.Project;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,7 @@ namespace CentenoDev.API
 
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<ILessonService, LessonService>();
+            services.AddTransient<IAttachmentService, AttachmentService>();
 
 
             services.Configure<ApiBehaviorOptions>(options =>

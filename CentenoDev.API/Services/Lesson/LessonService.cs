@@ -27,24 +27,6 @@ namespace CentenoDev.API.Services.Lesson
             return await _db.Lesson.Where(l => l.Guid == lessonGuid && l.ProjectGuid == projectGuid).FirstOrDefaultAsync();
         }
 
-        public async Task AddLesson(LessonEntity lesson)
-        {
-            lesson.Guid = Guid.NewGuid();
-
-            await _db.Lesson.AddAsync(lesson);
-        }
-
-        public async Task DeleteLesson(Guid projectGuid, Guid lessonGuid)
-        {
-            var lesson = await GetLessonByGuid(projectGuid, lessonGuid);
-
-            _db.Lesson.Remove(lesson);
-        }
-
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _db.SaveChangesAsync() > 0);
-        }
 
         public async Task<bool> LessonExists(Guid projectGuid, Guid lessonGuid)
         {

@@ -7,11 +7,8 @@ namespace CentenoDev.API.Services.Project
 {
     public interface IProjectService
     {
-        Task AddProject(ProjectEntity project);
-        Task DeleteProject(Guid guid);
         Task<ProjectEntity> GetProjectByGuid(Guid guid);
         Task<IEnumerable<ProjectEntity>> GetProjects();
         Task<bool> ProjectExists(Guid guid);
-        Task<bool> SaveChangesAsync();
     }
 }

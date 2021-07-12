@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CentenoDev.API.Models.Project
+namespace CentenoDev.API.Models
 {
-    public class ProjectForCreation
+    public class Project
     {
-        [Required]
-        [MaxLength(100)]
+        public Guid Guid { get; set; }
+
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(250)]
         public string Description { get; set; }
 
-        [MaxLength(500)]
         public string GitRepo { get; set; }
 
-        [MaxLength(500)]
         public string ProdLink { get; set; }
 
-        [Required]
         public bool IsPersonal { get; set; }
     }
 }

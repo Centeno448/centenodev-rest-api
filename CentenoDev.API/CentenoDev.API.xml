@@ -4,6 +4,21 @@
         <name>CentenoDev.API</name>
     </assembly>
     <members>
+        <member name="M:CentenoDev.API.Controllers.AttachmentsController.GetLessons(System.Guid)">
+            <summary>
+            Get all attachments from a project
+            </summary>
+            <param name="projectGuid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CentenoDev.API.Controllers.AttachmentsController.GetLesson(System.Guid,System.Guid)">
+            <summary>
+            Get an attachment from a project
+            </summary>
+            <param name="projectGuid"></param>
+            <param name="attachmentGuid"></param>
+            <returns></returns>
+        </member>
         <member name="M:CentenoDev.API.Controllers.LessonsController.GetLessons(System.Guid)">
             <summary>
             Get all lessons from a project
