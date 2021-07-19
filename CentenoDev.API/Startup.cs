@@ -94,6 +94,11 @@ namespace CentenoDev.API
             });
 
             services.AddAutoMapper(typeof(Startup).Assembly);
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +108,7 @@ namespace CentenoDev.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            
 
             app.UseSwagger();
             app.UseSwaggerUI(c => 
@@ -112,8 +118,7 @@ namespace CentenoDev.API
             });
 
             app.UseRouting();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseCors(options => options.WithOrigins("http://localhost:3000"));
 
             app.UseEndpoints(endpoints =>
             {

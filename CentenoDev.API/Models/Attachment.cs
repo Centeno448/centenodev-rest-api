@@ -12,6 +12,6 @@ namespace CentenoDev.API.Models
         public string Url { get; set; }
 
         public Guid ProjectGuid { get; set; }
-        
+
     }
 }

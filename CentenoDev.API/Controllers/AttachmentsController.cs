@@ -2,6 +2,7 @@
 using CentenoDev.API.Models;
 using CentenoDev.API.Services.Attachment;
 using CentenoDev.API.Services.Project;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace CentenoDev.API.Controllers
 {
     [ApiController]
     [Route("projects/{projectGuid}/attachments")]
+    [EnableCors("AllowOrigin")]
     public class AttachmentsController : ControllerBase
     {
         private readonly IAttachmentService _attachmentService;

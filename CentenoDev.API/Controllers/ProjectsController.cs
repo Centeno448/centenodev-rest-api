@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CentenoDev.API.Models;
 using CentenoDev.API.Services.Project;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,6 +13,7 @@ namespace CentenoDev.API.Controllers
 {
     [ApiController]
     [Route("projects")]
+    [EnableCors("AllowOrigin")]
     public class ProjectsController : ControllerBase
     {
         private readonly ILogger<ProjectsController> _logger;
