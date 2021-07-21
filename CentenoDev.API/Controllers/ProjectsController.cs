@@ -30,12 +30,16 @@ namespace CentenoDev.API.Controllers
         /// <summary>
         /// Get all the projects
         /// </summary>
+        /// <param name="random">Randomize project order</param>
+        /// <param name="limit">Amount of projects to return</param>
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<Project>>> GetProjects([FromQuery] bool random=false, [FromQuery] int limit=0)
         {
-            var projects = await _projectService.GetProjects();
+            var projects = await _projectService.GetProjects(random, limit);
+
+
             var result = _mapper.Map<IEnumerable<Project>>(projects);
 
             return Ok(result);

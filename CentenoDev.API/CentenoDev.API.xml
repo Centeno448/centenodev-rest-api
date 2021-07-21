@@ -34,10 +34,12 @@
             <param name="lessonGuid"></param>
             <returns></returns>
         </member>
-        <member name="M:CentenoDev.API.Controllers.ProjectsController.GetProjects">
+        <member name="M:CentenoDev.API.Controllers.ProjectsController.GetProjects(System.Boolean,System.Int32)">
             <summary>
             Get all the projects
             </summary>
+            <param name="random">Randomize project order</param>
+            <param name="limit">Amount of projects to return</param>
             <returns></returns>
         </member>
         <member name="M:CentenoDev.API.Controllers.ProjectsController.GetProject(System.Guid)">

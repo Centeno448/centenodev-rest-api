@@ -8,7 +8,7 @@ namespace CentenoDev.API.Services.Project
     public interface IProjectService
     {
         Task<ProjectEntity> GetProjectByGuid(Guid guid);
-        Task<IEnumerable<ProjectEntity>> GetProjects();
+        Task<IEnumerable<ProjectEntity>> GetProjects(bool random, int limit);
         Task<bool> ProjectExists(Guid guid);
     }
 }

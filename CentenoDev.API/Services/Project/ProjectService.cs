@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CentenoDev.API.Extensions;
 
 namespace CentenoDev.API.Services.Project
 {
@@ -18,9 +19,22 @@ namespace CentenoDev.API.Services.Project
         }
 
 
-        public async Task<IEnumerable<ProjectEntity>> GetProjects()
+        public async Task<IEnumerable<ProjectEntity>> GetProjects(bool random, int limit)
         {
-            return await _db.Project.ToListAsync();
+            var projects = await _db.Project.ToListAsync();
+
+
+            if (random)
+            {
+                projects.Shuffle();
+            }
+
+            if(limit > 0 && limit < projects.Count)
+            {
+                return projects.Take(limit);
+            }
+
+            return projects;
         }
 
         public async Task<ProjectEntity> GetProjectByGuid(Guid guid)
