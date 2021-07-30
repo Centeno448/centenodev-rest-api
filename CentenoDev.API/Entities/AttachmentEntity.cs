@@ -19,5 +19,8 @@ namespace CentenoDev.API.Entities
         public ProjectEntity Project { get; set; }
 
         public Guid ProjectGuid { get; set; }
+
+        [MaxLength(100)]
+        public string Title { get; set; }
     }
 }
