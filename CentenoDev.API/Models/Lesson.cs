@@ -9,7 +9,9 @@ namespace CentenoDev.API.Models
     {
         public Guid Guid { get; set; }
 
-        public string Content { get; set; }
+        public string Content_EN { get; set; }
+
+        public string Content_ES { get; set; }
 
         public Guid ProjectGuid { get; set; }
 

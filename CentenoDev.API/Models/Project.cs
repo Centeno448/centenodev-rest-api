@@ -11,7 +11,9 @@ namespace CentenoDev.API.Models
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string Description_EN { get; set; }
+
+        public string Description_ES { get; set; }
 
         public string GitRepo { get; set; }
 

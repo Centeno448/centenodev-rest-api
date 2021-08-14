@@ -17,7 +17,11 @@ namespace CentenoDev.API.Entities
 
         [Required]
         [MaxLength(250)]
-        public string Description { get; set; }
+        public string Description_EN { get; set; }
+
+        [Required]
+        [MaxLength(250)]
+        public string Description_ES { get; set; }
 
         [MaxLength(500)]
         public string GitRepo { get; set; }

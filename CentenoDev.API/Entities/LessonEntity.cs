@@ -13,7 +13,11 @@ namespace CentenoDev.API.Entities
         public Guid Guid { get; set; }
 
         [MaxLength(200)]
-        public string Content { get; set; }
+        public string Content_EN { get; set; }
+
+        [MaxLength(200)]
+        public string Content_ES { get; set; }
+
 
         [ForeignKey("ProjectGuid")]
         public ProjectEntity Project { get; set; }
