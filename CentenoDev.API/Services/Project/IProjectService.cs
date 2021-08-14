@@ -3,16 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CentenoDev.API.Services
+namespace CentenoDev.API.Services.Project
 {
     public interface IProjectService
     {
-        void AddProject(ProjectEntity project);
-        void DeleteProject(Guid guid);
-        void Dispose();
         Task<ProjectEntity> GetProjectByGuid(Guid guid);
-        Task<IEnumerable<ProjectEntity>> GetProjects();
+        Task<IEnumerable<ProjectEntity>> GetProjects(bool random, int limit);
         Task<bool> ProjectExists(Guid guid);
-        Task<bool> SaveChangesAsync();
     }
 }

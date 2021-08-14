@@ -16,6 +16,8 @@ namespace CentenoDev.API.Data
 
         public DbSet<ProjectEntity> Project { get; set; }
 
-        public DbSet<AccountEntity> Account { get; set; }
+        public DbSet<LessonEntity> Lesson { get; set; }
+
+        public DbSet<AttachmentEntity> Attachment { get; set; }
     }
 }

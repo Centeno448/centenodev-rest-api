@@ -9,8 +9,6 @@ namespace CentenoDev.API.Entities
     public class ProjectEntity
     {
         [Key]
-        public int ProjectId { get; set; }
-
         public Guid Guid { get; set; }
 
         [Required]
@@ -18,7 +16,23 @@ namespace CentenoDev.API.Entities
         public string Name { get; set; }
 
         [Required]
+        [MaxLength(250)]
+        public string Description_EN { get; set; }
+
+        [Required]
+        [MaxLength(250)]
+        public string Description_ES { get; set; }
+
         [MaxLength(500)]
-        public string Description { get; set; }
+        public string GitRepo { get; set; }
+        
+        [MaxLength(500)]
+        public string ProdLink { get; set; }
+
+        [Required]
+        public bool IsPersonal { get; set; } = false;
+
+
+        public ICollection<LessonEntity> Lessons { get; set; } = new List<LessonEntity>();
     }
 }

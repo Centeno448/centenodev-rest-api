@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+
+  centenodev.api:
+    container_name: centenodev.api
+    image: ${DOCKER_REGISTRY-}centenodevapi
+    build:
+      context: .
+      dockerfile: CentenoDev.API/Dockerfile
+
+  centenodev.db:
+    container_name: centenodev.db
+    build:
+      context: .
+      dockerfile: CentenoDev.DB/Dockerfile
+    volumes:
+      - "centenodev-data:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=83f091a12468
+
+  centenodev.adminer:
+    container_name: centenodev.adminer
+    image: adminer
+    ports:
+    - 8080:8080 
+
+volumes:
+  centenodev-data:

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CentenoDev.API;
 using CentenoDev.API.Entities;
 using CentenoDev.API.Models;
 using System;
@@ -9,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CentenoDev.API.Profiles
 {
-    public class ProjectProfile : Profile
+    public class AttachmentProfile : Profile
     {
-        public ProjectProfile()
+        public AttachmentProfile()
         {
-            CreateMap<ProjectEntity, Project>();
+            CreateMap<AttachmentEntity, Attachment>();
         }
     }
 }
