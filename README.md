@@ -45,6 +45,12 @@ Open project with Visual Studio or Rider
 ```
  
 Abrir con Visual Studio o Rider
+
+## Relevant Links
+
+- [Deployed Frontend](https://centenodev.me/)
+- [Frontend Github Repo](https://github.com/Centeno448/centenodev-client)
+- [Backend API Doc](https://api.centenodev.me/index.html)
   
 ## Authors
 
