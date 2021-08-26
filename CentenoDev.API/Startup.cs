@@ -97,7 +97,7 @@ namespace CentenoDev.API
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000"));
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000", "https://www.centenodev.me", "https://centenodev.me"));
             });
         }
 
@@ -118,7 +118,7 @@ namespace CentenoDev.API
             });
 
             app.UseRouting();
-            app.UseCors(options => options.WithOrigins("http://localhost:3000"));
+            app.UseCors(options => options.WithOrigins("http://localhost:3000", "https://www.centenodev.me", "https://centenodev.me"));
 
             app.UseEndpoints(endpoints =>
             {
