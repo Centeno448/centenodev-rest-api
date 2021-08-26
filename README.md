@@ -15,11 +15,15 @@ C# .NET Core
 
 `CENTENODEV_API_ConnectionStrings__CentenoDevConnection` - DB Connection String
 
+`ASPNETCORE_ENVIRONMENT` - Environment
+
 Si se ejecuta localmente se puede modificar el archivo `appsettings.Development.json`
 
 ### To run this project, you will need the following environment variables
 
 `CENTENODEV_API_ConnectionStrings__CentenoDevConnection` - DB Connection String
+
+`ASPNETCORE_ENVIRONMENT` - Environment
 
 If the project is ran locally, you can instead modify `appsettings.Development.json`
 
