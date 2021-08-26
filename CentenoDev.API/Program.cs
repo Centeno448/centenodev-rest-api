@@ -20,7 +20,7 @@ namespace CentenoDev.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    config.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower()}.json", optional: true);
+                    config.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true);
                     config.AddEnvironmentVariables(prefix: "CENTENODEV_API_");
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
